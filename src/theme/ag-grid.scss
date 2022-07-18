@@ -1,0 +1,44 @@
+// Global styling for AG Grid
+
+// We would like to use the newer Sass API as described here:
+// https://www.ag-grid.com/angular-data-grid/global-style-upgrading-to-v28-sass/
+
+// But we are using modules, not packages, so we have also taken a look here:
+// https://www.ag-grid.com/angular-data-grid/modules/#cssscss-paths
+// Neither doc describes correctly how to use the new Sass API with modules.
+// The second doc seems straight up contradictory and wrong
+// It says: "CSS & SCSS will be available in the @ag-grid-community/core module"
+// But then below, it claims you import like so: @import "@ag-grid-community/styles/ag-grid.scss";
+// That does not use "/core", and it is different from what the first doc describes as how you do the imports now
+
+// I believe the new Sass API for modules should look like this:
+// @use "~@ag-grid-community/core/styles" as ag;
+
+// But instead, we are forced to use the Legacy Sass API, like so:
+@import "~@ag-grid-community/core/dist/styles/ag-grid.scss";
+@import "~@ag-grid-community/core/dist/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
+
+// NOTE: If I switch this project to use packages instead of modules, I can
+// @use "~@ag-grid-community/styles" as ag;
+// and it will work just fine.
+
+.ag-theme-alpine {
+  // Use our fonts for the grid
+  @include ag-theme-alpine(
+    (
+      foreground-color: green,
+    )
+  );
+}
+
+// If the new Sass API was working, I could use this syntax instead of the above
+// @include ag.grid-styles((
+//   theme: alpine,
+//   foreground-color: green,
+// ));
+
+// .ag-theme-alpine {
+//   .ag-header-cell {
+//     font-style: italic;
+//   }
+// }
